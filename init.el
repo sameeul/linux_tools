@@ -32,6 +32,7 @@
  ;; If there is more than one, they won't work right.
  )
 (setq inhibit-startup-screen t)
+;;no header and bla bla in print
 (setq ps-print-header nil)
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
