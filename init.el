@@ -15,7 +15,7 @@
 ; Change yes/no questions to y/n type.
 (fset 'yes-or-no-p 'y-or-n-p)       
 ;; Set location for external packages.
-(add-to-list 'load-path "C:/users/samee/.emacs.d/lisp")
+;;(add-to-list 'load-path "C:/users/samee/.emacs.d/lisp")
 ;; view line and column number
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -24,15 +24,21 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(line-number-mode t)
- '(org-agenda-files (quote ("d:/Scratch/NXN12_ToDo.org"))))
+ ;;'(org-agenda-files (quote ("d:/Scratch/NXN12_ToDo.org")
+  )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; set up default font
+(when (member "Droid Sans Mono" (font-family-list))
+    (add-to-list 'initial-frame-alist '(font . "Droid Sans Mono-10"))
+    (add-to-list 'default-frame-alist '(font . "Droid Sans Mono-10")))
 (setq inhibit-startup-screen t)
-;;no header and bla bla in print
+;; check before quit
+(setq confirm-kill-emacs 'yes-or-no-p)
 (setq ps-print-header nil)
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
@@ -81,62 +87,7 @@
 (display-time-mode 1)
 ;; no tab
 (setq indent-tabs-mode nil)
-;;
-;;
-;;     NXN Develeopment, Fortran Workflow stuffs
-;;
-;;
-;;
-;; Global Key bindings
-;;
-;; Setting tags-file for NXN source browsing
-(setq tags-file-name
-  (concat (getenv "NXN_TOOLS_BASE") "/nastran1/TAGS"))
-;; fortran comment key binding and other settings
-;; perforce nxn_put command 
-(defun my-nxn-put()
-    (interactive)
-      (shell-command (concat "nxn_put " (file-name-nondirectory buffer-file-name))))
-;; fortran compile command
-(defun my-fortran-compile()
-    (interactive)
-      (shell-command (concat "nxn_compile -d " (file-name-nondirectory buffer-file-name))))
-;; fortran link command
-(defun my-fortran-link()
-    (interactive)
-      (shell-command (concat "nxn_link -d *.obj")))
-;;
-;; Fortran mode Key bindings
-;;
-(defun my-fortran-mode-config ()
-  "For use in `fortran-mode-hook'."
-  (local-set-key (kbd "C-x /") 'comment-region) 
-  (local-set-key (kbd "C-x \\") 'uncomment-region)
-  (local-set-key (kbd "C-x c") 'my-fortran-compile)
-  (local-set-key (kbd "C-x j") 'my-fortran-link)
-  (local-set-key (kbd "C-x p") 'my-nxn-put)
-  (setq fortran-comment-region "C ")
-;; more here
-  )
-;; add to hook
-(add-hook 'fortran-mode-hook 'my-fortran-mode-config)
-;; Custom mode for dmap and nastran input deck
-(require 'dmap-mode)
-(add-to-list 'auto-mode-alist '("\\.ddl\\'" . dmap-mode))
-(add-to-list 'auto-mode-alist '("\\.dat\\'" . dmap-mode))
-;;
-;; DMAP mode key binding
-;;
-(defun my-dmap-mode-config ()
-  "For use in `dmap-mode-hook'."
-  (local-set-key (kbd "C-x /") 'comment-region) 
-  (local-set-key (kbd "C-x \\") 'uncomment-region)
-  (local-set-key (kbd "C-x p") 'my-nxn-put)
-;; more here
-  )
-(defun test-hook ()
-  (message "Testing hook"))
-;; add to hook
-(add-hook 'dmap-mode-hook 'my-dmap-mode-config)
+(add-hook 'python-mode-hook '(lambda () 
+ (setq python-indent 4)))
 ;; Reload file with M-x load-flie after making change
 ;;
